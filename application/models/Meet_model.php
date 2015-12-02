@@ -2,15 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Meet_model extends CI_Model {
 
-    public $title;
-    public $content;
-    public $date;
-
     public function __construct()
     {
         // Call the CI_Model constructor
         parent::__construct();
-        // $this->load->database();
     }
 
     public function create()
@@ -29,5 +24,19 @@ class Meet_model extends CI_Model {
 		}
     }
 
+    public function getmeetlist($search)
+    {
+    	if($search===false){
+    		$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid";
+    		$sql = $this->db->query($sql);
+    	}
+		else{
+			$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname=?";
+			if($search===0) $search = '0';
+			$sql = $this->db->query($sql,$search);
+		}
+		$list = $sql->result_array();
+		return $list;
+    }
 
 }
