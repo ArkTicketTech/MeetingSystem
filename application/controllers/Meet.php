@@ -13,17 +13,33 @@ class Meet extends CI_Controller {
 	{
 		$this->load->model('meet_model');
 		if($search===false)
-			$data['list'] = $this->meet_model->getmeetlist(false);
+			$data['list'] = $this->meet_model->getmeetlist(false,0);
 		else
-			$data['list'] = $this->meet_model->getmeetlist($search);
+			$data['list'] = $this->meet_model->getmeetlist($search,0);
 
 		$this->load->view('djxhy',$data);
 	}
 
 	//draft meetings
-	public function draft()
+	public function draft($search=false)
 	{
-		$this->load->view('djjxbjhy');
+		$this->load->model('meet_model');
+		if($search===false)
+			$data['list'] = $this->meet_model->getmeetlist(false,1);
+		else
+			$data['list'] = $this->meet_model->getmeetlist($search,1);
+		$this->load->view('djjxbjhy',$data);
+	}
+
+	//close meetings
+	public function closed($search=false)
+	{
+		$this->load->model('meet_model');
+		if($search===false)
+			$data['list'] = $this->meet_model->getmeetlist(false,2);
+		else
+			$data['list'] = $this->meet_model->getmeetlist($search,2);
+		$this->load->view('yjshy',$data);
 	}
 
 	//post to create page
