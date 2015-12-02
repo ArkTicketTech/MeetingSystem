@@ -20,8 +20,14 @@ class Meet extends CI_Controller {
 		$this->load->view('djxhy',$data);
 	}
 
+	//draft meetings
+	public function draft()
+	{
+		$this->load->view('djjxbjhy');
+	}
+
 	//post to create page
-	public function create_post()
+	public function create_post($type=1)
 	{
 		if($this->input->method()=='get'){
 			$this->load->view('xjhy');
@@ -30,8 +36,11 @@ class Meet extends CI_Controller {
 		else{
 			$this->load->model('meet_model');
 
-			if($this->meet_model->create()){
-				redirect(base_url("meet/stay"));
+			if($this->meet_model->create($type)){
+				if($type)
+					redirect(base_url("meet/stay"));
+				else
+					redirect(base_url("meet/draft"));
 			}
 			else{
 				$this->load->view('xjhy');
@@ -40,7 +49,7 @@ class Meet extends CI_Controller {
 	}
 
 	//meet room
-	public function meetroom()
+	public function room()
 	{
 		$this->load->model('meet_model');
 		$data['list'] = $this->meet_model->getroomlist();

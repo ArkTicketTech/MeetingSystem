@@ -8,14 +8,14 @@ class Meet_model extends CI_Model {
         parent::__construct();
     }
 
-    public function create()
+    public function create($type)
     {
     	$pbt=strtotime($_POST['mplanbt']);
 		$pet=strtotime($_POST['mplanet']);
 		$pbt=date('Y-m-d H:i:s',$pbt);
 		$pet=date('Y-m-d H:i:s',$pet);
-        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind) VALUES (1,?,?,?,?)";
-		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind']));
+        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate) VALUES (1,?,?,?,?,?)";
+		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type));
 		if($this->db->simple_query($sql)){
 			return true;
 		}

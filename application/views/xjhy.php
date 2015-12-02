@@ -108,7 +108,10 @@
 <script>
 $(document).ready(function(){
 	$(".bottomSpan").children().eq(1).click(function(){
-		$('form').submit();
+		$('.form').attr("action", "<?php echo base_url('meet/create_post/1');?>").submit();
+	});
+	$(".bottomSpan").children().eq(0).click(function(){
+		$('.form').attr("action", "<?php echo base_url('meet/create_post/0');?>").submit();
 	});
 });
 </script>

@@ -44,4 +44,12 @@
 	</div>
 </div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(".bottom").click(function(){
+		location.href = "<?php echo base_url('meet/index')?>";
+	});
+});
+</script>
 </html>
