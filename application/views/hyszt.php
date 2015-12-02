@@ -26,7 +26,7 @@
 			</div>
 			<div class="row meetTime"  >
 				未来三小时
-				<span>空闲</span>
+				<span><?php echo  ($r['flag']) ? "占用" : '空闲';?></span>
 			</div>
 		</div>
 		<div class="col-xs-1" >

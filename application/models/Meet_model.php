@@ -51,8 +51,24 @@ class Meet_model extends CI_Model {
 
     	$used = "SELECT DISTINCT mrid FROM meeting WHERE ( mplanbt < ? and mplanet > ? ) or ( mplanbt < ? and mplanet > ?)";
     	$used = $this->db->query($used,array($now,$now,$later,$later));
-
-    	return $used->result_array();
+    	$flag = 0;
+    	$list = array();
+    	$tmp = array();
+    	foreach ($all->result_array() as $r){
+    		$flag = 0;
+    		$tmp['rid'] = $r['rid'];
+    		$tmp['rname'] = $r['rname'];
+    		foreach ($used->result_array() as $m) {
+    			if($r['rid'] == $m['mrid'])
+    			{
+    				$flag = 1;
+    				break;
+    			}
+    		}
+    		$tmp['flag'] = $flag;
+    		array_push($list,$tmp);
+    	}
+    	return $list;
 
     }
 
