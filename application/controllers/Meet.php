@@ -39,5 +39,13 @@ class Meet extends CI_Controller {
 		}
 	}
 
+	//meet room
+	public function meetroom()
+	{
+		$this->load->model('meet_model');
+		$data['list'] = $this->meet_model->getroomlist();
+		$this->load->view('hyszt',$data);
+	}
+
 
 }

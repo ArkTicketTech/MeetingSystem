@@ -11,6 +11,9 @@
 </head>
 <body >
 <div class="container-fluid " style="margin-bottom:60px">
+	<?php
+		foreach ($list as $r) {
+	?>
 	<div class="row meetSt" >
 		<div class="col-xs-2" >
 			<span class="circle" >
@@ -19,7 +22,7 @@
 		</div>
 		<div class="col-xs-9" >
 			<div class="row meetTitle" >
-				6楼会议室1
+				<?php echo $r['rname']?>
 			</div>
 			<div class="row meetTime"  >
 				未来三小时
@@ -30,44 +33,9 @@
 			>
 		</div>
     </div>
-	<div class="row meetSt" >
-		<div class="col-xs-2" >
-			<span class="circle" >
-				<i></i>
-			</span>
-		</div>
-		<div class="col-xs-9" >
-			<div class="row meetTitle" >
-				6楼会议室1
-			</div>
-			<div class="row meetTime"  >
-				未来三小时
-				<span>空闲</span>
-			</div>
-		</div>
-		<div class="col-xs-1" >
-			>
-		</div>
-    </div>
-	<div class="row meetSt" >
-		<div class="col-xs-2" >
-			<span class="circle" >
-				<i></i>
-			</span>
-		</div>
-		<div class="col-xs-9" >
-			<div class="row meetTitle" >
-				6楼会议室1
-			</div>
-			<div class="row meetTime"  >
-				未来三小时
-				<span>空闲</span>
-			</div>
-		</div>
-		<div class="col-xs-1" >
-			>
-		</div>
-    </div>
+	<?php
+    	}
+    ?>
    
 </div>
 <div class="newS" style="height:60px">

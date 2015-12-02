@@ -39,4 +39,21 @@ class Meet_model extends CI_Model {
 		return $list;
     }
 
+    public function getroomlist()
+    {
+    	$now=date('Y-m-d H:i:s');
+    	$later = strtotime($now);
+    	$later = $later + 30*60;
+    	$later = date('Y-m-d H:i:s',$later);
+
+    	$all = "SELECT rid,rname FROM room";
+    	$all = $this->db->query($all);
+
+    	$used = "SELECT DISTINCT mrid FROM meeting WHERE ( mplanbt < ? and mplanet > ? ) or ( mplanbt < ? and mplanet > ?)";
+    	$used = $this->db->query($used,array($now,$now,$later,$later));
+
+    	return $used->result_array();
+
+    }
+
 }
