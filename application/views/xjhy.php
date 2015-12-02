@@ -11,12 +11,13 @@
 </head>
 <body >
 <div class="container-fluid "  style="margin-bottom:100px">
+	<form method="post" class="form" action="<?php echo base_url('meet/create_post');?>"> 
 	<div class="row xjhy" >
 		<div class="col-xs-3" >
 			开始时间
 		</div>
 		<div class="col-xs-8" >
-			<input placeholder="请选择日期">
+			<input name="mplanbt" placeholder="请选择日期">
 		</div>
     </div>
    <div class="row xjhy" >
@@ -24,7 +25,7 @@
 			结束时间
 		</div>
 		<div class="col-xs-8" >
-			<input placeholder="请选择日期">
+			<input name="mplanet" placeholder="请选择日期">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -32,7 +33,7 @@
 			会议地点
 		</div>
 		<div class="col-xs-8" >
-			<input placeholder="请选择会议室">
+			<input name="mrid" placeholder="请选择会议室">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -40,7 +41,7 @@
 			会议开始前提醒时间（分钟）
 		</div>
 		<div class="col-xs-4" >
-			<input placeholder="30">
+			<input name="mremind" placeholder="30">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -49,14 +50,6 @@
 		</div>
 		<div class="col-xs-6 checkBtn" >
 			<span class="left" ></span>
-		</div>
-    </div>
-	<div class="row xjhy" >
-		<div class="col-xs-6" >
-			只运行摇一摇签到
-		</div>
-		<div class="col-xs-6 checkBtn" >
-			<span class="right" ></span>
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -99,6 +92,7 @@
 			</select>
 		</div>
     </div>
+	</form>
 </div>
 <div class="newS" >
 	<div class="bottomSpan" >
@@ -110,4 +104,13 @@
 	</div>
 </div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(".bottomSpan").children().eq(1).click(function(){
+		$('form').submit();
+	});
+});
+</script>
+
 </html>

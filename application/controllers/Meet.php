@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Meet extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -20,7 +20,33 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('hyszt');
+		$this->load->view('xjhy');
 	}
+
+	//coming meetings
+	public function stay()
+	{
+		$this->load->view('djxhy');
+	}
+
+	//post to create page
+	public function create_post()
+	{
+		if($this->input->method()=='get'){
+			$this->load->view('xjhy');
+		}
+
+		else{
+			$this->load->model('meet_model');
+
+			if($this->meet_model->create()){
+				redirect(base_url("meet/stay"));
+			}
+			else{
+				$this->load->view('xjhy');
+			}
+		}
+	}
+
 
 }
