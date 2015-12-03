@@ -14,7 +14,7 @@ class Meet_model extends CI_Model {
 		$pet=strtotime($_POST['mplanet']);
 		$pbt=date('Y-m-d H:i:s',$pbt);
 		$pet=date('Y-m-d H:i:s',$pet);
-        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mchecktype) VALUES (1,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mchecktype) VALUES (1,?,?,?,?,?,?,?,?)";
 		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype']));
 		if($this->db->simple_query($sql)){
 			return true;
@@ -24,9 +24,18 @@ class Meet_model extends CI_Model {
 		}
     }
 
-    public function detail($type)
+    public function getmeetdetail($mid)
     {
-    	
+    	$sql = "SELECT muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mchecktype,user.uname,room.rname FROM meeting,user,room WHERE mid = ? AND muid = user.uid AND mrid = room.rid";
+		$sql = $this->db->query($sql,$mid);    	
+		return $sql->result_array();
+    }
+
+    public function getmeetmember($mid)
+    {
+    	$sql = "SELECT * FROM meetmember,user WHERE mmmid = ? AND user.uid = mmuid";
+    	$sql = $this->db->query($sql,$mid); 
+        return $sql->result_array();
     }
 
     /*$type
