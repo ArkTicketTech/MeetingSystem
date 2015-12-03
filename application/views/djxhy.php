@@ -18,7 +18,9 @@
 	<div class="row meetSh" >
 	<?php
 		foreach ($list as $r) {
+			$path = base_url('meet/mydetail').'/'.$r['mid'];
 	?>
+	<div onclick="javascript:window.location.href='<?php echo $path;?>'">
 		<div class="col-xs-2" >
 			<span class="circle" >
 				<i></i>
@@ -37,6 +39,7 @@
 				<span><?php echo date('Y-m-d H:i',strtotime($r['mplanbt']));?>至<?php echo date('Y-m-d H:i',strtotime($r['mplanet']));?></span>
 			</div>
 		</div>
+	</div>
 	<?php
     	}
     ?>

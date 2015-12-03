@@ -14,8 +14,8 @@ class Meet_model extends CI_Model {
 		$pet=strtotime($_POST['mplanet']);
 		$pbt=date('Y-m-d H:i:s',$pbt);
 		$pet=date('Y-m-d H:i:s',$pet);
-        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate) VALUES (1,?,?,?,?,?)";
-		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type));
+        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mchecktype) VALUES (1,?,?,?,?,?,?,?,?)";
+		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype']));
 		if($this->db->simple_query($sql)){
 			return true;
 		}
@@ -23,6 +23,12 @@ class Meet_model extends CI_Model {
 			return false;
 		}
     }
+
+    public function detail($type)
+    {
+    	
+    }
+
     /*$type
 	// 0 : my stay meet 
 	// 1 : my darft meet 
@@ -63,7 +69,7 @@ class Meet_model extends CI_Model {
     		}
 		}
 		$list = $sql->result_array();
-		var_dump($list);
+		//var_dump($list);
 		return $list;
     }
 

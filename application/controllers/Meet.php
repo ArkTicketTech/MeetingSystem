@@ -8,6 +8,10 @@ class Meet extends CI_Controller {
 		$this->load->view('xjhy');
 	}
 
+	public function mydetail($id=0)
+	{
+		$this->load->view('wdhyxq');
+	}
 	//stay meetings
 	public function stay($search=false)
 	{
@@ -16,7 +20,7 @@ class Meet extends CI_Controller {
 			$data['list'] = $this->meet_model->getmeetlist(false,0);
 		else
 			$data['list'] = $this->meet_model->getmeetlist($search,0);
-
+		var_dump($data);
 		$this->load->view('djxhy',$data);
 	}
 

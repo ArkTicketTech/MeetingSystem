@@ -14,6 +14,14 @@
 	<form method="post" class="form" action="<?php echo base_url('meet/create_post');?>"> 
 	<div class="row xjhy" >
 		<div class="col-xs-3" >
+			会议标题
+		</div>
+		<div class="col-xs-8" >
+			<input name="mname" placeholder="请输入会议标题">
+		</div>
+    </div>	
+	<div class="row xjhy" >
+		<div class="col-xs-3" >
 			开始时间
 		</div>
 		<div class="col-xs-8" >
@@ -41,7 +49,7 @@
 			会议开始前提醒时间（分钟）
 		</div>
 		<div class="col-xs-4" >
-			<input name="mremind" placeholder="30">
+			<input class="form_remind" name="mremind" placeholder="30">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -50,14 +58,16 @@
 		</div>
 		<div class="col-xs-6 checkBtn" >
 			<span class="left" ></span>
+			<input style="display:none;" name="mchecktype" value="0"></input>
 		</div>
     </div>
 	<div class="row xjhy" >
 		<div class="col-xs-6" >
-			已阅即确认为参加
+			是否为公司层会议
 		</div>
 		<div class="col-xs-6 checkBtn" >
-			<span class="right" ></span>
+			<span class="left" ></span>
+			<input style="display:none;" name="mconfirm" value="0"></input>
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -108,10 +118,24 @@
 <script>
 $(document).ready(function(){
 	$(".bottomSpan").children().eq(1).click(function(){
+		if($(".form_remind").val()=="") $(".form_remind").val(30);
+		alert($(".form_remind").val());
 		$('.form').attr("action", "<?php echo base_url('meet/create_post/1');?>").submit();
 	});
 	$(".bottomSpan").children().eq(0).click(function(){
+		if($(".form_remind").val()=="") $(".form_remind").val(30);
+		alert($(".form_remind").val());
 		$('.form').attr("action", "<?php echo base_url('meet/create_post/0');?>").submit();
+	});
+	$(".checkBtn").bind("click",function(){
+		if($(this).children().eq(0).hasClass('left')){
+			$(this).children().eq(0).removeClass('left').addClass('right');
+			$(this).children().eq(1).val(1);
+		}
+		else{
+			$(this).children().eq(0).removeClass('right').addClass('left');	
+			$(this).children().eq(1).val(0);
+		}
 	});
 });
 </script>
