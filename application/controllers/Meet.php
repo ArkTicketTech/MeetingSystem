@@ -8,10 +8,17 @@ class Meet extends CI_Controller {
 		$this->load->view('xjhy');
 	}
 
+	//my stay meetings' detail  
 	public function mydetail($id=0)
 	{
-		$this->load->view('wdhyxq');
+		if(!$id)
+			exit('404 ERROR!');
+		$this->load->model('meet_model');
+		$data['list'] = $this->meet_model->getmeetdetail($id);
+		$data['members'] = $this->meet_model->getmeetmember($id);
+		$this->load->view('wdhyxq',$data);
 	}
+
 	//stay meetings
 	public function stay($search=false)
 	{

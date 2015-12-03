@@ -17,7 +17,7 @@
 		</div>
 		<div class="col-xs-5" >
 			<div class="row meetTitle" >
-				朱1<i></i>
+				<?php echo $list[0]['uname']?><i></i>
 			</div>
 			<div class="row meetTime"  >
 				2015-11-22 11:08:51
@@ -31,28 +31,29 @@
     </div>
    <div class="row xjhy" >
 		<div class="col-xs-12" >
-			123
+			<?php echo $list[0]['mname']?>
 		</div>
     </div>
 	<div class="row testCont" style="height:280px">
 		<div class="col-xs-12" >
-			123
+			<?php echo $list[0]['mname']?>
 		</div>
 		<div class="col-xs-12" >
-			测试地点:<span>6楼会议室1</span>
+			地点:<span><?php echo $list[0]['rname']?></span>
 		</div>
 		<div class="col-xs-12" style="color:#ed710c">
-			<i></i>会议开始时间：2015-11-12  12:05:00
+			<i></i>会议开始时间：<?php echo $list[0]['mplanbt']?>
 		</div>
 		<div class="col-xs-12" style="color:#ed710c">
-			<i></i>会议开始时间：2015-11-12  12:05:00
+			<i></i>会议结束时间：<?php echo $list[0]['mplanet']?>
 		</div>
 		<div class="col-xs-6" style="color:#ed710c">
 			<img src="<?php echo base_url('img/banner.png');?>" style="height:90px;width:90px">
 		</div>
 		<div class="col-xs-5" >
-			<p  class="sign">扫码签到</p>
-			<p  class="sign">定位签到</p>
+			<?php 
+				echo ($list[0]['mchecktype']) ? '<p  class="sign">扫码签到</p>' : '<p  class="sign">定位签到</p>';
+			?>
 		</div>
 		<div class="col-xs-12" >
 			<div class="row num" >
@@ -70,91 +71,22 @@
     </div>
 	<div class="row  xjhy" >
 		<div class="col-xs-12 words"  >
-			发起人（1）
+			参与人（<?php echo count($members)?>）
 		</div>
 		<div class="col-xs-12" style="background-color:#fff">
 			<div class="row">
-				<div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>" class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
+				<?php 
+				foreach($members as $row){
+				?>
+					<div class="col-xs-2" >
+						<div class="row">
+							<img src="<?php echo base_url('img/banner.png');?>" class="col-xs-12 tstImg">
+							<p class="col-xs-12 tname"><?php echo $row['uname']?></p>
+						</div>
 					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>" class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div>
-	<div class="row  xjhy" >
-		<div class="col-xs-12 words"  >
-			参与人（1）
-		</div>
-		<div class="col-xs-12" style="background-color:#fff">
-			<div class="row">
-				<div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>" class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>"  class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div><div class="col-xs-2" >
-					<div class="row">
-						<img src="<?php echo base_url('img/banner.png');?>" class="col-xs-12 tstImg">
-						<p class="col-xs-12 tname">朱1</p>
-					</div>
-				</div>
+				<?php 
+				}
+				?>
 			</div>
 		</div>
     </div>
