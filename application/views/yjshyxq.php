@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="<?php echo base_url('css/index.css');?>">
 </head>
 <body >
-	<?php echo form_open_multipart('upload/do_upload');?>
-		<input type="file" name="userfile" size="20" />
+	<?php echo form_open_multipart('upload/do_upload'.'/'.$list[0]['mid']);?>
+		<input id="File" type="file" name="userfile" style="display:none" onchange="upload2()" />
 	</form>
 <div class="container-fluid "  style="margin-bottom:60px;    overflow: hidden;">
 	<div class="row meetSt" >
@@ -27,8 +27,9 @@
 			</div>
 		</div>
 		<div class="col-xs-5" >
-			<span class="copy" id="pf" >评分</span>
-			<span class="summary" style="background-color:#fc6100;width:30%">纪要</span>
+			<?php $scoreurl = base_url("meet/score")."/".$list[0]['mid'];?>
+			<span class="copy" id="pf" onclick="javascript:window.location.href='<?php echo $scoreurl;?>'">评分</span>
+			<span class="summary" style="background-color:#fc6100;width:30%" onclick = "upload1();">纪要</span>
 		</div>
     </div>
    <div class="row xjhy" >
@@ -103,4 +104,14 @@
     </div>
 </div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+	function upload1(){
+		$("#File").click();
+		//$("#File").parent().submit();
+	}
+	function upload2(){
+		$("#File").parent().submit();
+	}
+</script>
 </html>

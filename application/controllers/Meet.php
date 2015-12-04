@@ -118,14 +118,23 @@ class Meet extends CI_Controller {
 		}
 	}
 
-	//
-
 	//meet room
 	public function room()
 	{
 		$this->load->model('meet_model');
 		$data['list'] = $this->meet_model->getroomlist();
 		$this->load->view('hyszt',$data);
+	}
+
+	//score
+	public function score($id=0)
+	{
+		if(!$id)
+			exit('404 ERROR!');
+		$this->load->model('meet_model');
+		$data['list'] = $this->meet_model->getmeetdetail($id);
+		$data['members'] = $this->meet_model->getmeetmember($id);
+		$this->load->view('djpf',$data);
 	}
 
 

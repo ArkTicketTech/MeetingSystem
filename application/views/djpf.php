@@ -13,7 +13,7 @@
 <div class="container-fluid "  style="margin-bottom:100px">
 	<div class="row xjhy" style="border:none">
 		<div class="col-xs-5" >
-			xx会议评分为
+			<?php echo $list[0]['mname'];?>会议评分为
 		</div>
 		<div class="col-xs-4" >
 			评分xxx
