@@ -16,6 +16,11 @@
 </div> 
 <div class="container-fluid " style="margin-top:50px">
 	<div class="row meetSh" >
+	<?php
+		foreach ($list as $r) {
+			$path = base_url('meet/editdraft').'/'.$r['mid'];
+	?>
+	<div onclick="javascript:window.location.href='<?php echo $path;?>'">
 		<div class="col-xs-2" >
 			<span class="circle" >
 				<i></i>
@@ -23,20 +28,32 @@
 		</div>
 		<div class="col-xs-9" >
 			<div class="row meetTitle" >
-				123
+				<?php echo $r['mname'];?>
 			</div>
 			<div class="row meetTime"  >
 				地点
-				<span>六楼会议室</span>
+				<span><?php echo $r['rname'];?></span>
 			</div>
            <div class="row meetTime"  >
 				时间
-				<span>2015-08-15 18:30至2015-08-16 19:30</span>
+				<span><?php echo date('Y-m-d H:i',strtotime($r['mplanbt']));?>至<?php echo date('Y-m-d H:i',strtotime($r['mplanet']));?></span>
 			</div>
 		</div>
+	</div>
+	<?php
+    	}
+    ?>
 
     </div>
 	<span class="nomore">已没有更多</span>
 </div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.serach span').bind("click",function(){
+			location.href ="<?php echo base_url('meet/draft')?>"+"/"+$('.serach input').val();
+		});
+	});
+</script>
 </html>

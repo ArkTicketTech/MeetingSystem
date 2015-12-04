@@ -24,8 +24,8 @@
 			</div>
 		</div>
 		<div class="col-xs-5" >
-			<span class="copy" id="start" >会议开始</span>
-			<span class="copy" id="end" >会议结束</span>
+			<span class="copy" id="start" style="<?php echo ($list[0]['mactbt']) ? 'display:none;':'' ?>">会议开始</span>
+			<span class="copy" id="end" style="<?php echo ($list[0]['mactbt']) ? '':'display:none;' ?>">会议结束</span>
 			<span class="summary" style="background-color:#fc6100;width:30%">修改</span>
 		</div>
     </div>
@@ -55,11 +55,29 @@
 				echo ($list[0]['mchecktype']) ? '<p  class="sign">扫码签到</p>' : '<p  class="sign">定位签到</p>';
 			?>
 		</div>
+		<?php 			
+			$attend = 0;
+			$leave = 0;
+			$unknown = 0;
+			if(count($members)){
+				foreach ($members as $mem) {
+				    if($mem['mmleave'] == 0){
+				    	if($mem['mmattend'])
+				    		$attend++;
+				    	else
+				    		$unknown++;
+				    }
+				    else{
+				    	$leave++;
+				    }
+				}
+			}
+		?>
 		<div class="col-xs-12" >
 			<div class="row num" >
-				<span class="col-xs-4" >参加（0人）</span>
-				<span class="col-xs-4" >请假（0人）</span>
-				<span class="col-xs-4" >未反馈（0人）</span>
+				<span class="col-xs-4" >参加（<?php echo $attend;?>人）</span>
+				<span class="col-xs-4" >请假（<?php echo $leave;?>人）</span>
+				<span class="col-xs-4" >未反馈（<?php echo $unknown;?>人）</span>
 			</div>
 		</div>
 		<div class="col-xs-6">
@@ -92,4 +110,28 @@
     </div>
 </div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+	
+$(document).ready(function(){
+	$("#start").bind("click",function(){
+			$.post(
+			"<?php echo base_url('ajax/meetstart').'/'.$list[0]['mid'];?>",
+			function(){
+				$("#start").css("display","none");
+				$("#end").css("display","inline");
+			}
+		);
+	});
+	$("#end").bind("click",function(){
+		$.post(
+			"<?php echo base_url('ajax/meetend').'/'.$list[0]['mid'];?>",
+			function(){
+				$('#end').unbind("click");
+				$("#end").css("display","inline");
+			}
+		);
+	});
+});
+</script>
 </html>

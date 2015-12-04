@@ -17,7 +17,7 @@
 			会议标题
 		</div>
 		<div class="col-xs-8" >
-			<input name="mname" placeholder="请输入会议标题">
+			<input name="mname" placeholder="请输入会议标题" value="<?php echo (empty($list[0])?'':$list[0]['mname'])?>">
 		</div>
     </div>	
 	<div class="row xjhy" >
@@ -25,7 +25,7 @@
 			开始时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanbt" placeholder="请选择日期">
+			<input name="mplanbt" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
 		</div>
     </div>
    <div class="row xjhy" >
@@ -33,7 +33,7 @@
 			结束时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanet" placeholder="请选择日期">
+			<input name="mplanet" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanet'])?>">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -41,7 +41,7 @@
 			会议地点
 		</div>
 		<div class="col-xs-8" >
-			<input name="mrid" placeholder="请选择会议室">
+			<input name="mrid" placeholder="请选择会议室" value="<?php echo (empty($list[0])?'':$list[0]['mrid'])?>">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -49,7 +49,7 @@
 			会议开始前提醒时间（分钟）
 		</div>
 		<div class="col-xs-4" >
-			<input class="form_remind" name="mremind" placeholder="30">
+			<input class="form_remind" name="mremind" placeholder="30" value="<?php echo (empty($list[0])?'':$list[0]['mremind'])?>">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -119,13 +119,15 @@
 $(document).ready(function(){
 	$(".bottomSpan").children().eq(1).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);
-		alert($(".form_remind").val());
-		$('.form').attr("action", "<?php echo base_url('meet/create_post/1');?>").submit();
+		$('form').attr("action", "<?php echo base_url('meet/create_post/1');?>").submit();
+		//window.document.location="<?php echo base_url('meet/stay');?>";
+
 	});
 	$(".bottomSpan").children().eq(0).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);
-		alert($(".form_remind").val());
-		$('.form').attr("action", "<?php echo base_url('meet/create_post/0');?>").submit();
+		$('form').attr("action", "<?php echo base_url('meet/create_post/0');?>").submit();
+		//window.document.location="<?php echo base_url('meet/draft/');?>";
+
 	});
 	$(".checkBtn").bind("click",function(){
 		if($(this).children().eq(0).hasClass('left')){

@@ -19,6 +19,18 @@ class Meet extends CI_Controller {
 		$this->load->view('wdhyxq',$data);
 	}
 
+	//closed meetings' detail  
+	public function closedetail($id=0)
+	{
+		if(!$id)
+			exit('404 ERROR!');
+		$this->load->helper('form');
+		$this->load->model('meet_model');
+		$data['list'] = $this->meet_model->getmeetdetail($id);
+		$data['members'] = $this->meet_model->getmeetmember($id);
+		$this->load->view('yjshyxq',$data);
+	}
+
 	//stay meetings
 	public function stay($search=false)
 	{
@@ -27,7 +39,6 @@ class Meet extends CI_Controller {
 			$data['list'] = $this->meet_model->getmeetlist(false,0);
 		else
 			$data['list'] = $this->meet_model->getmeetlist($search,0);
-		var_dump($data);
 		$this->load->view('djxhy',$data);
 	}
 
@@ -50,6 +61,7 @@ class Meet extends CI_Controller {
 			$data['list'] = $this->meet_model->getmeetlist(false,2);
 		else
 			$data['list'] = $this->meet_model->getmeetlist($search,2);
+		var_dump($data);
 		$this->load->view('yjshy',$data);
 	}
 
@@ -74,6 +86,39 @@ class Meet extends CI_Controller {
 			}
 		}
 	}
+
+	//editdraft page
+	public function editdraft($id=0)
+	{
+		if(!$id)
+			exit('404 ERROR!');
+		$this->load->model('meet_model');
+		$data['list'] = $this->meet_model->getmeetdetail($id);
+		$this->load->view('xjhy',$data);
+	}
+
+	//post for change
+	public function change_post($type=1,$id)
+	{
+		if($this->input->method()=='get'){
+			$this->load->view('xjhy');
+		}
+
+		else{
+			$this->load->model('meet_model');
+			if($this->meet_model->change($type,$id)){
+				if($type)
+					redirect(base_url("meet/stay"));
+				else
+					redirect(base_url("meet/draft"));
+			}
+			else{
+				$this->load->view('xjhy');
+			}
+		}
+	}
+
+	//
 
 	//meet room
 	public function room()

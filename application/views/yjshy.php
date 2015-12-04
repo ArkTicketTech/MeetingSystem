@@ -15,45 +15,26 @@
 	<span></span>
 </div> 
 <div class="container-fluid " style="margin-top:50px">
-	<div class="row meetSt" >
-		<div class="col-xs-3" >
-			<img src="<?php echo base_url('img/banner.png');?>" class="meetImg">
-		</div>
-		<div class="col-xs-9" >
-			<div class="row meetTitle" >
-				朱1<span >11-12</span>
+		<?php
+		foreach ($list as $r) {
+			$path = base_url('meet/closedetail').'/'.$r['mid'];
+		?>
+			<div class="row meetSt" onclick="javascript:window.location.href='<?php echo $path;?>'">
+				<div class="col-xs-3" >
+					<img src="<?php echo base_url('img/banner.png');?>" class="meetImg">
+				</div>
+				<div class="col-xs-9" >
+					<div class="row meetTitle" >
+						<?php echo $r['uname']?><span ><?php echo $r['mplanet'];?></span>
+					</div>
+					<div class="row meetTime"  >
+						<?php echo $r['mname']?>
+					</div>
+				</div>
 			</div>
-			<div class="row meetTime"  >
-				测试会议
-			</div>
-		</div>
-    </div>
-	<div class="row meetSt" >
-		<div class="col-xs-3" >
-			<img src="<?php echo base_url('img/banner.png');?>" class="meetImg">
-		</div>
-		<div class="col-xs-9" >
-			<div class="row meetTitle" >
-				朱1<span >11-12</span>
-			</div>
-			<div class="row meetTime"  >
-				测试会议
-			</div>
-		</div>
-    </div>
-	<div class="row meetSt" >
-		<div class="col-xs-3" >
-			<img src="<?php echo base_url('img/banner.png');?>" class="meetImg">
-		</div>
-		<div class="col-xs-9" >
-			<div class="row meetTitle" >
-				朱1<span >11-12</span>
-			</div>
-			<div class="row meetTime"  >
-				测试会议
-			</div>
-		</div>
-    </div>
+		<?php
+		}
+		?>
 	<span class="nomore">已没有更多</span>
 </div>
 </body>
