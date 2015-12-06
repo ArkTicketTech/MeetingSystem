@@ -55,24 +55,20 @@
 			</tr>
 		  </thead>
 		  <tbody>
+		  	<?php
+		  		$count = 0;
+		  		foreach ($list as $r) {
+		  			$count++;
+		  	?>
 			<tr>
-			  <th scope="row">1</th>
-			  <td>Mark</td>
-			  <td>Otto</td>
-			  <td>@mdo</td>
+			  <th scope="row"><?php echo $count?></th>
+			  <td><?php echo $r["mname"];?></td>
+			  <td><?php echo $r["uname"];?></td>
+			  <td><?php echo $r["mscore"];?></td>
 			</tr>
-			<tr>
-			  <th scope="row">2</th>
-			  <td>Jacob</td>
-			  <td>Thornton</td>
-			  <td>@fat</td>
-			</tr>
-			<tr>
-			  <th scope="row">3</th>
-			  <td>Larry</td>
-			  <td>the Bird</td>
-			  <td>@twitter</td>
-			</tr>
+			<?php
+				}
+			?>
 		  </tbody>
 		</table>
     </div>

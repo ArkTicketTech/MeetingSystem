@@ -14,14 +14,29 @@ class Meet_model extends CI_Model {
 		$pet=strtotime($_POST['mplanet']);
 		$pbt=date('Y-m-d H:i:s',$pbt);
 		$pet=date('Y-m-d H:i:s',$pet);
-        $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mchecktype) VALUES (1,?,?,?,?,?,?,?,?)";
-		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype']));
-		if($this->db->simple_query($sql)){
+        if(!$_POST['mfilename']){
+            $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mchecktype,mapartment) VALUES (1,?,?,?,?,?,?,?,?,?)";
+            $sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype'],$_POST['mapartment']));
+        }
+        else {
+            $time = date('Y-m-d H:i:s');
+            $sql = "INSERT INTO meeting (muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mchecktype,mapartment,mfiletime,mfilename) VALUES (1,?,?,?,?,?,?,?,?,?,?,?)";
+    		$sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype'],$_POST['mapartment'],$time,$_POST['mfilename']));
+		}
+        if($this->db->simple_query($sql)){
 			return true;
 		}
 		else{
 			return false;
 		}
+    }
+
+    public function getinsertid()
+    {
+        $sql = "SELECT max(mid) from meeting";
+        $sql = $this->db->query($sql);
+        $sql = $sql->result_array();
+        return $sql; 
     }
 
     public function change($type,$id)
@@ -30,8 +45,8 @@ class Meet_model extends CI_Model {
         $pet=strtotime($_POST['mplanet']);
         $pbt=date('Y-m-d H:i:s',$pbt);
         $pet=date('Y-m-d H:i:s',$pet);
-        $sql = "UPDATE meeting SET muid=1,mplanbt=?,mplanet=?,mrid=?,mremind=?,mstate=?,mname=?,mconfirm=?,mchecktype=? WHERE mid=?";
-        $sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype'],$id));
+        $sql = "UPDATE meeting SET muid=1,mplanbt=?,mplanet=?,mrid=?,mremind=?,mstate=?,mname=?,mconfirm=?,mchecktype=?,mapartment=? WHERE mid=?";
+        $sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype'],$_POST['mapartment'],$id));
         if($this->db->simple_query($sql)){
             return true;
         }
@@ -42,9 +57,16 @@ class Meet_model extends CI_Model {
 
     public function getmeetdetail($mid)
     {
-    	$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mactbt,mactet,mchecktype,user.uname,room.rname FROM meeting,user,room WHERE mid = ? AND muid = user.uid AND mrid = room.rid";
+    	$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mremind,mstate,mname,mconfirm,mactbt,mactet,mchecktype,mfilename,user.uname,room.rname,mscore,mfiletime,mapartment FROM meeting,user,room WHERE mid = ? AND muid = user.uid AND mrid = room.rid";
 		$sql = $this->db->query($sql,$mid);    	
 		return $sql->result_array();
+    }
+
+    public function getroomtypes()
+    {
+        $sql = "SELECT * FROM room;";
+        $sql = $this->db->query($sql);     
+        return $sql->result_array();   
     }
 
     public function getmeetmember($mid)
@@ -155,5 +177,173 @@ class Meet_model extends CI_Model {
         else{
             return false;
         }
+    }
+
+    public function checkin($id)
+    {
+        $uid = 1;
+        $now = date('Y-m-d H:i:s');
+        $sql = "UPDATE meetmember SET mmchecktime=?, mmchecked=1 WHERE mmmid = ? AND mmuid = ? ";
+        $sql = $this->db->query($sql,array($now,$id,$uid));
+        if($this->db->simple_query($sql)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function attend($id)
+    {
+        $uid = 1;
+        $sql = "UPDATE meetmember SET mmleave=0, mmattend=1 WHERE mmmid = ? AND mmuid = ? ";
+        $sql = $this->db->query($sql,array($id,$uid));
+        if($this->db->simple_query($sql)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function leave($id)
+    {
+        $uid = 1;
+        $sql = "UPDATE meetmember SET mmleave=1, mmattend=0 WHERE mmmid = ? AND mmuid = ? ";
+        $sql = $this->db->query($sql,array($id,$uid));
+        if($this->db->simple_query($sql)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function getrankover($id)
+    {
+        $sql = "SELECT * FROM meeting";
+        $sql = $this->db->query($sql);
+        $baseline = "SELECT mscore FROM meeting WHERE mid = ?";
+        $baseline = $this->db->query($baseline,$id);
+        $baseline = $baseline->result_array();
+        $result = $sql->result_array();
+        $rank = 0;
+        foreach ($result as $r) {
+            if($r['mscore']){
+                if($r['mscore']<$baseline[0]['mscore']){
+                    $rank++;
+                }
+            }
+        }
+        return $rank;
+    }
+
+    public function rank()
+    {
+        $sql = "SELECT * FROM meeting,user WHERE mstate=1 AND user.uid = meeting.muid AND NOT ISNULL(mscore) ORDER BY mscore desc";
+        $sql = $this->db->query($sql);
+        $result = $sql->result_array();
+        return $result;
+        
+    }
+
+    public function postscore($mid)
+    {
+        $now = date('Y-m-d H:i:s');
+        $later = strtotime($now);
+        $sql = "SELECT * FROM meetmember,user WHERE mmmid = ? AND user.uid = mmuid";
+        $sql = $this->db->query($sql,$mid); 
+        $meet = "SELECT * FROM meeting WHERE mid = ?";
+        $meet = $this->db->query($meet,$mid); 
+        $meet = $meet->result_array();
+        $members = $sql->result_array();
+        $add = "";
+        $absentnum=0;
+        $latenum=0;
+        $score=100;
+        var_dump($meet);
+        if(count($members)){
+                foreach ($members as $mem) {
+                    if($mem['mmchecked'] == 0){
+                        $add = "UPDATE user SET uabsentnum = uabsentnum + 1 WHERE uid = ?";
+                        $add = $this->db->query($add,$mem['mmuid']);
+                        $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
+                        $add = $this->db->query($add,$mem['mmuid']);
+                        $absentnum++;
+                    }
+                    if($mem['mmchecked'] && ($mem['mmchecktime'] > $meet[0]['mplanbt']) ){
+                        $add = "UPDATE user SET ulatenum = ulatenum + 1 WHERE uid = ?";
+                        $add = $this->db->query($add,$mem['mmuid']);
+                        $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
+                        $add = $this->db->query($add,$mem['mmuid']);
+                        $latenum++;
+                    }
+                }
+        }
+        $sum = $absentnum * 5 + $latenum * 2;
+        if($sum>30) $sum = 30;
+        $score = $score - $sum;
+
+        if(!$meet[0]['mfiletime']){
+            $sum = 30;
+        }
+        else{
+            if((strtotime($meet[0]['mfiletime'])-$later)/3600<12)
+                $sum=0;
+            else{
+                if((strtotime($meet[0]['mfiletime'])-$later)/3600<24)   
+                    $sum=5;
+                else{
+                    if((strtotime($meet[0]['mfiletime'])-$later)/3600<36)   $sum=10;
+                    else{
+                        if((strtotime($meet[0]['mfiletime'])-$later)/3600<48)   $sum=15;
+                        else{
+                            if((strtotime($meet[0]['mfiletime'])-$later)/3600<60)   $sum=20;
+                            else{
+                                if((strtotime($meet[0]['mfiletime'])-$later)/3600<72)   $sum=25;
+                                else{
+                                    $sum=30;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $score = $score - $sum;
+        $mine = 0;
+        $minb = 0;
+        $minb = (strtotime($meet[0]['mactbt'])-strtotime($meet[0]['mplanbt']))/60;
+        $mine = (strtotime($meet[0]['mactet'])-strtotime($meet[0]['mplanet']))/60;
+
+        if($minb<=0) $minb=0;
+        if($mine<=0) $mine=0;
+
+        $sum = (20/60)*$minb;
+        if($sum>20) $sum=20;
+        $score = $score - $sum;
+
+        $sum = (20/60)*$mine;
+        if($sum>20) $sum=20;
+        $score = $score - $sum;
+
+        $sql = "UPDATE meeting SET mscore = ? WHERE mid = ?";
+        $sql = $this->db->query($sql,array($score,$mid)); 
+        if($this->db->simple_query($sql)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function getapartments()
+    {
+        $sql = "SELECT * FROM apartment";
+        $sql = $this->db->query($sql);
+        $result = $sql->result_array();
+        return $result;
+        
     }
 }

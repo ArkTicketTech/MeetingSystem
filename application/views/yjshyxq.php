@@ -40,7 +40,7 @@
 	<div class="row testCont" style="height:auto">
 		<div class="col-xs-12" style="color:#040404">
 			会议提纲:
-			<p>1.啊啊啊</p>
+			<p>1.<?php echo $list[0]['mfilename']?></p>
 		</div>
 		<div class="col-xs-12" >
 			地点:<span><?php echo $list[0]['rname']?></span>

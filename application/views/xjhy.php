@@ -8,10 +8,11 @@
     <!-- 包含 bootstrap 样式表 -->
     <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('css/index.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/datetime/DateTimePicker.css')?>" />
 </head>
 <body >
 <div class="container-fluid "  style="margin-bottom:100px">
-	<form method="post" class="form" action="<?php echo base_url('meet/create_post');?>"> 
+	<form method="post" class="form" enctype="multipart/form-data" accept-charset="utf-8" action="<?php echo base_url('meet/create_post');?>"> 
 	<div class="row xjhy" >
 		<div class="col-xs-3" >
 			会议标题
@@ -25,7 +26,7 @@
 			开始时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanbt" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
+			<input name="mplanbt" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
 		</div>
     </div>
    <div class="row xjhy" >
@@ -33,7 +34,7 @@
 			结束时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanet" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanet'])?>">
+			<input name="mplanet" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanet'])?>">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -41,7 +42,14 @@
 			会议地点
 		</div>
 		<div class="col-xs-8" >
-			<input name="mrid" placeholder="请选择会议室" value="<?php echo (empty($list[0])?'':$list[0]['mrid'])?>">
+			<select name="mrid" value="<?php echo (empty($list[0])?'':$list[0]['mrid'])?>">
+				<?php foreach ($rooms as $r) {
+				?>
+					<option value="<?php echo $r['rid']?>"><?php echo $r['rname']?></option>
+				<?php
+				}
+				?>
+			</select>
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -75,18 +83,23 @@
 			附件（0）
 		</div>
 		<div class="col-xs-4 add" >
-			<span style="font-size:20px;line-height: 27px;">+</span>上传
+			<span style="font-size:20px;line-height: 27px;" onclick = "upload1()">+</span>上传
+			<input id="File" type="file" name="userfile" style="display:none" onchange="alert(123)"/>
+			<input id="Filename" name="mfilename" style="display:none;"/>
 		</div>
     </div>
 	<div class="row xjhy" >
 		<div class="col-xs-6" >
-			发起人
+			会议部门
 		</div>
 		<div class="col-xs-6 " >
-			<select>
-				<option>已选择1人</option>
-				<option>已选择2人</option>
-				<option>已选择3人</option>
+			<select name="mapartment">
+				<?php foreach ($apartments as $r) {
+				?>
+					<option value="<?php echo $r['aid']?>"><?php echo $r['aname']?></option>
+				<?php
+				}
+				?>
 			</select>
 		</div>
     </div>
@@ -104,6 +117,7 @@
     </div>
 	</form>
 </div>
+<div id="dtBox"></div>
 <div class="newS" >
 	<div class="bottomSpan" >
 		<span>保存为草稿</span>
@@ -115,16 +129,39 @@
 </div>
 </body>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url('css/datetime/DateTimePicker.js')?>"></script>
 <script>
+function upload1(){
+	$("#File").click();
+}
 $(document).ready(function(){
+	var path = "";
+	var pos1 = "";
+	var pos2 = "";
+	function upload2(){
+			alert(123);
+			path = $("#File").val();
+			pos1 = path.split('/');
+			pos2 = path.split('\\');
+			if(pos1.length>0){
+				pos = pos1[pos1.length-1];
+			}
+			if(pos2.length>0){
+				pos = pos2[pos2.length-1];
+			}
+			$("#Filename").val(pos);
+	}
 	$(".bottomSpan").children().eq(1).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);
+		upload2();
 		$('form').attr("action", "<?php echo base_url('meet/create_post/1');?>").submit();
 		//window.document.location="<?php echo base_url('meet/stay');?>";
 
 	});
 	$(".bottomSpan").children().eq(0).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);
+		upload2();
+		alert(123);
 		$('form').attr("action", "<?php echo base_url('meet/create_post/0');?>").submit();
 		//window.document.location="<?php echo base_url('meet/draft/');?>";
 
@@ -139,7 +176,14 @@ $(document).ready(function(){
 			$(this).children().eq(1).val(0);
 		}
 	});
+	$("#dtBox").DateTimePicker({
+		formatHumanDate: function(date)
+		{
+		    return date.day + ", " + date.month + " " + date.dd + ", " + date.yyyy;
+		}
+    });
 });
+
 </script>
 
 </html>

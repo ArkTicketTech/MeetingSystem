@@ -26,7 +26,8 @@
 		<div class="col-xs-5" >
 			<span class="copy" id="start" style="<?php echo ($list[0]['mactbt']) ? 'display:none;':'' ?>">会议开始</span>
 			<span class="copy" id="end" style="<?php echo ($list[0]['mactbt']) ? '':'display:none;' ?>">会议结束</span>
-			<span class="summary" style="background-color:#fc6100;width:30%">修改</span>
+			<?php $temppath = base_url("meet/meetchange/").'/'.$list[0]['mid']; ?>
+			<span class="summary" style="background-color:#fc6100;width:30%" onclick="window.location.href='<?php echo $temppath?>'">修改</span>
 		</div>
     </div>
    <div class="row xjhy" >
@@ -52,7 +53,7 @@
 		</div>
 		<div class="col-xs-5" >
 			<?php 
-				echo ($list[0]['mchecktype']) ? '<p  class="sign">扫码签到</p>' : '<p  class="sign">定位签到</p>';
+				echo ($list[0]['mchecktype']) ? '<p  class="sign" onclick="check()">扫码签到</p>' : '<p  class="sign" onclick="check()">定位签到</p>';
 			?>
 		</div>
 		<?php 			
@@ -81,10 +82,10 @@
 			</div>
 		</div>
 		<div class="col-xs-6">
-			<span class="sure">确认参加</span>
+			<span class="sure" onclick="attend()">确认参加</span>
 		</div>
 		<div class="col-xs-6">		
-			<span class="vacation">请假</span>
+			<span class="vacation" onclick="leave()">请假</span>
 		</div>
     </div>
 	<div class="row  xjhy" >
@@ -115,7 +116,7 @@
 	
 $(document).ready(function(){
 	$("#start").bind("click",function(){
-			$.post(
+		$.post(
 			"<?php echo base_url('ajax/meetstart').'/'.$list[0]['mid'];?>",
 			function(){
 				$("#start").css("display","none");
@@ -133,5 +134,36 @@ $(document).ready(function(){
 		);
 	});
 });
+
+function check(){
+		$.post(
+			"<?php echo base_url('ajax/checkin').'/'.$list[0]['mid'];?>",
+			function(){
+				alert("签到成功!");
+				$(".sign").css("display","none");
+			}
+		);
+}
+
+function attend(){
+		$.post(
+			"<?php echo base_url('ajax/attend').'/'.$list[0]['mid'];?>",
+			function(){
+				alert("已确认参加!");
+				$(".sign").css("display","none");
+				location.reload();
+			}
+		);
+}
+function leave(){
+		$.post(
+			"<?php echo base_url('ajax/leave').'/'.$list[0]['mid'];?>",
+			function(){
+				alert("请假成功!");
+				$(".sign").css("display","none");
+				location.reload();
+			}
+		);
+}
 </script>
 </html>
