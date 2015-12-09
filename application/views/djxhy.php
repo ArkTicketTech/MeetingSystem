@@ -20,6 +20,7 @@
 		foreach ($list as $r) {
 			$path = base_url('meet/mydetail').'/'.$r['mid'];
 	?>
+
 		<div class="row meetSh" >
 			<div onclick="javascript:window.location.href='<?php echo $path;?>'">
 				<div class="col-xs-2" >
@@ -42,11 +43,10 @@
 				</div>
 			</div>
 	    </div>
+	    
 	<?php
     	}
     ?>
-
-
 	<span class="nomore">已没有更多</span>
 </div>
 </body>

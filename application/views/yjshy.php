@@ -38,4 +38,12 @@
 	<span class="nomore">已没有更多</span>
 </div>
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.serach span').bind("click",function(){
+			location.href ="<?php echo base_url('meet/closed')?>"+"/"+$('.serach input').val();
+		});
+	});
+</script>
 </html>

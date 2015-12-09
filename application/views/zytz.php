@@ -11,51 +11,44 @@
 </head>
 <body >
 <div class="container-fluid " style="margin-bottom:60px">
-	<div class="row meetSt">
-		<div class="col-xs-9" >
-			<div class="row meetTime"  >
-				会议标题
-				<span>XXXXXXXXXXX</span>
-			</div>
-			<div class="row meetTime"  >
-				通知事项
-				<span>会议临时延期</span>
-			</div>
-			<div class="row meetTime"  >
-				通知时间
-				<span>2015-06-04</span>
-				<span>18:00</span>
-			</div>
-        </div>
-		<div class="col-xs-1" >
-			
-		</div>
-    </div>
-    
-    <div class="row meetSt" >
-		<div class="col-xs-9" >
-			<div class="row meetTime"  >
-				会议标题
-				<span>XXXXXXXXXXX</span>
-			</div>
-			<div class="row meetTime"  >
-				通知事项
-				<span>会议临时延期</span>
-			</div>
-			<div class="row meetTime"  >
-				通知时间
-				<span>2015-06-04</span>
-				<span>18:00</span>
-			</div>
-        </div>
-		<div class="col-xs-1" >
-			
-		</div>
-    </div>
-    
-	
+	<?php foreach($msgs as $msg){
+		if(!$msg['mactet'])
+			$url = base_url("meet/mydetail/")."/".$msg['mid'];
+		if($msg['mactet'])
+			$url = base_url("meet/closedetail/")."/".$msg['mid'];
+	?>
 
-   
+	<div class="row meetSt" onclick="window.location.href='<?php echo $url;?>'">
+		<div class="col-xs-9" >
+			<div class="row meetTime"  >
+				会议标题
+				<span><?php echo $msg['mname']?></span>
+			</div>
+			<div class="row meetTime"  >
+				通知事项
+				<span>
+					<?php 
+						if($msg['msgtype'] == 1)
+							echo "会议临时延期";
+						if($msg['msgtype'] == 2)
+							echo "会议取消";
+						if($msg['msgtype'] == 3)
+							echo "参会人请假";
+					?>
+				</span>
+			</div>
+			<div class="row meetTime"  >
+				通知时间
+				<span><?php echo $msg['msgtime']?></span>
+			</div>
+        </div>
+		<div class="col-xs-1" >
+			
+		</div>
+    </div>
+    <?php 
+	}
+	?>
 </div>
 
 </body>

@@ -64,7 +64,6 @@ class Meet extends CI_Controller {
 			$data['list'] = $this->meet_model->getmeetlist(false,2);
 		else
 			$data['list'] = $this->meet_model->getmeetlist($search,2);
-		var_dump($data);
 		$this->load->view('yjshy',$data);
 	}
 
@@ -137,8 +136,9 @@ class Meet extends CI_Controller {
 		else{
 			$this->load->model('meet_model');
 			if($this->meet_model->change($type,$id)){
-				if($type)
+				if($type){
 					redirect(base_url("meet/stay"));
+				}
 				else
 					redirect(base_url("meet/draft"));
 			}

@@ -139,7 +139,6 @@ $(document).ready(function(){
 	var pos1 = "";
 	var pos2 = "";
 	function upload2(){
-			alert(123);
 			path = $("#File").val();
 			pos1 = path.split('/');
 			pos2 = path.split('\\');
@@ -161,7 +160,6 @@ $(document).ready(function(){
 	$(".bottomSpan").children().eq(0).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);
 		upload2();
-		alert(123);
 		$('form').attr("action", "<?php echo base_url('meet/create_post/0');?>").submit();
 		//window.document.location="<?php echo base_url('meet/draft/');?>";
 

@@ -51,6 +51,7 @@ class Ajax extends CI_Controller {
 			exit("404 ERROR!");
 		$this->load->model('meet_model');
 		$result = $this->meet_model->leave($id);
+		var_dump($result);
 		return $result;
 	}
 

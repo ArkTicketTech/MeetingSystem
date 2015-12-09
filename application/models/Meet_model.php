@@ -41,18 +41,29 @@ class Meet_model extends CI_Model {
 
     public function change($type,$id)
     {
+
         $pbt=strtotime($_POST['mplanbt']);
         $pet=strtotime($_POST['mplanet']);
         $pbt=date('Y-m-d H:i:s',$pbt);
         $pet=date('Y-m-d H:i:s',$pet);
         $sql = "UPDATE meeting SET muid=1,mplanbt=?,mplanet=?,mrid=?,mremind=?,mstate=?,mname=?,mconfirm=?,mchecktype=?,mapartment=? WHERE mid=?";
         $sql = $this->db->compile_binds($sql,array($pbt,$pet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype'],$_POST['mapartment'],$id));
+        
         if($this->db->simple_query($sql)){
-            return true;
+            if($_POST['mdelay'] == 1)
+            {
+                $msg = "INSERT INTO msg (msgtype,msgmid,msguid) VALUES(1,?,1)";
+                $msg = $this->db->query($msg,$id);
+                if($msg)
+                    return true;
+            }
+            else
+                return true;
         }
         else{
             return false;
         }
+
     }
 
     public function getmeetdetail($mid)
@@ -103,17 +114,17 @@ class Meet_model extends CI_Model {
 			if($search===0) $search = '0';
 			
 			if($type==1){
-    			$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname=? AND meeting.mstate=0";
-    			$sql = $this->db->query($sql,$search);
+    			$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname like '%".$search."%' AND meeting.mstate=0";
+                $sql = $this->db->query($sql);
     		}
     		else{
     				if($type==2)
-    					$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname,uname FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND mname=? AND meeting.mplanbt < ? AND meeting.mstate=1";
+    					$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname,uname FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND mname like '%".$search."%' AND meeting.mplanbt < ? AND meeting.mstate=1";
     				else
-    					$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname=? AND meeting.mplanbt > ? AND meeting.mstate=1";
-    				
-    				$sql = $this->db->query($sql,array($search,$now));
+    					$sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname like '%".$search."%'  AND meeting.mplanbt > ? AND meeting.mstate=1";
+    				$sql = $this->db->query($sql,array($now));
     		}
+
 		}
 		$list = $sql->result_array();
 		//var_dump($list);
@@ -211,8 +222,13 @@ class Meet_model extends CI_Model {
         $uid = 1;
         $sql = "UPDATE meetmember SET mmleave=1, mmattend=0 WHERE mmmid = ? AND mmuid = ? ";
         $sql = $this->db->query($sql,array($id,$uid));
-        if($this->db->simple_query($sql)){
-            return true;
+        if($sql){
+            $msg = "INSERT INTO msg (msgtype,msgmid,msguid) VALUES(3,?,?)";
+            $msg = $this->db->query($msg,array($id,$uid));
+            if($msg)
+                return true;
+            else
+                return false;
         }
         else{
             return false;

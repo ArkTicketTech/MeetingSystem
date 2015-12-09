@@ -27,7 +27,8 @@
 			开始时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanbt" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
+			<input class="form_delay" name="mdelay" placeholder="30" value="0" style="display:none;">
+			<input class="form_begin" name="mplanbt" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
 		</div>
     </div>
    <div class="row xjhy" >
@@ -123,6 +124,9 @@
 $(document).ready(function(){
 	$(".bottomSpan").children().eq(0).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);
+		var datelast = new Date("<?php echo $list[0]['mplanbt'];?>");
+		var datenew = new Date($(".form_begin").val());
+		if(datenew>datelast) {$(".form_delay").val(1);}
 		$('form').submit();
 		//window.document.location="<?php echo base_url('meet/stay');?>";
 
