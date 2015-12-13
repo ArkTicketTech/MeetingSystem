@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Meet extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->helper(array('form', 'url'));
+    }
+
 	public function index()
 	{
 		$this->load->model('meet_model');
@@ -81,6 +87,7 @@ class Meet extends CI_Controller {
 				//var_dump("success");
 				if($_POST['mfilename']){
 					$id = $this->meet_model->getinsertid();
+					$id = $id[0]['max(mid)'];
 					$config['upload_path'] = './uploads_meet/';
 			        $config['max_size'] = 10240;
 			        $config['overwrite'] = TRUE;
@@ -89,11 +96,21 @@ class Meet extends CI_Controller {
 			        //var_dump($id);
 			        $this->load->library('upload', $config);
 			    }
-
-				if($type)
-					redirect(base_url("meet/stay"));
+				if ( ! $this->upload->do_upload('userfile'))
+				{
+				    $error = array('error' => $this->upload->display_errors());
+				    var_dump($error);
+				}
 				else
-					redirect(base_url("meet/draft"));
+				{
+				    $data = array('upload_data' => $this->upload->data());
+					if($type)
+						redirect(base_url("meet/stay"));
+					else
+						redirect(base_url("meet/draft"));
+				}
+
+
 			}
 			else{
 				//var_dump("expression");

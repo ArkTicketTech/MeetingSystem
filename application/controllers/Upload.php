@@ -10,11 +10,14 @@ class Upload extends CI_Controller {
 
     public function index()
     {
-        //$this->load->view('upload_form', array('error' => ' ' ));
+        $this->load->view('upload_form', array('error' => ' ' ));
     }
 
     public function do_upload($id)
     {
+        $this->load->model('meet_model');
+        $id = $this->meet_model->getinsertid();
+        $id = $id[0]['max(mid)'];
         $config['upload_path'] = './uploads_meet/';
         $config['max_size'] = 2048;
         $config['overwrite'] = TRUE;

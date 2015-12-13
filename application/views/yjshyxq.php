@@ -28,7 +28,7 @@
 		</div>
 		<div class="col-xs-5" >
 			<?php $scoreurl = base_url("meet/score")."/".$list[0]['mid'];?>
-			<span class="copy" id="pf" onclick="javascript:window.location.href='<?php echo $scoreurl;?>'">评分</span>
+			<span class="copy greenbutton" id="pf" onclick="javascript:window.location.href='<?php echo $scoreurl;?>'">评分</span>
 			<span class="summary" style="background-color:#fc6100;width:30%" onclick = "upload1();">纪要</span>
 		</div>
     </div>

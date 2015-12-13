@@ -24,8 +24,8 @@
 			</div>
 		</div>
 		<div class="col-xs-5" >
-			<span class="copy" id="start" style="<?php echo ($list[0]['mactbt']) ? 'display:none;':'' ?>">会议开始</span>
-			<span class="copy" id="end" style="<?php echo ($list[0]['mactbt']) ? '':'display:none;' ?>">会议结束</span>
+			<span class="copy greenbutton" id="start" style="<?php echo ($list[0]['mactbt']) ? 'display:none;':'' ?>">会议开始</span>
+			<span class="copy greenbutton" id="end" style="<?php echo ($list[0]['mactbt']) ? '':'display:none;' ?>">会议结束</span>
 			<?php $temppath = base_url("meet/meetchange/").'/'.$list[0]['mid']; ?>
 			<span class="summary" style="background-color:#fc6100;width:30%" onclick="window.location.href='<?php echo $temppath?>'">修改</span>
 		</div>
@@ -51,9 +51,9 @@
 		<div class="col-xs-6" style="color:#ed710c">
 			<img src="<?php echo base_url('img/banner.png');?>" style="height:90px;width:90px">
 		</div>
-		<div class="col-xs-5" >
+		<div class="col-xs-5" style="float:right;">
 			<?php 
-				echo ($list[0]['mchecktype']) ? '<p  class="sign" onclick="check()">扫码签到</p>' : '<p  class="sign" onclick="check()">定位签到</p>';
+				echo ($list[0]['mchecktype']) ? '<p  class="sign greenbutton" onclick="check()">扫码签到</p>' : '<p  class="sign greenbutton" onclick="check()">定位签到</p>';
 			?>
 		</div>
 		<?php 			
@@ -129,7 +129,7 @@ $(document).ready(function(){
 			"<?php echo base_url('ajax/meetend').'/'.$list[0]['mid'];?>",
 			function(){
 				$('#end').unbind("click");
-				$("#end").css("display","inline");
+				$("#end").css("display","none");
 			}
 		);
 	});

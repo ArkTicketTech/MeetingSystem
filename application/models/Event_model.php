@@ -8,14 +8,16 @@ class Event_model extends CI_Model {
         parent::__construct();
     }
 
-    public function add($date)
+    public function add()
     {
     	$ebt=strtotime($_POST['ebt']);
 		$eet=strtotime($_POST['eet']);
 		$ebt=date('Y-m-d H:i:s',$ebt);
 		$eet=date('Y-m-d H:i:s',$eet);
-        $sql = "INSERT INTO event (euid,ebt,eet,etype) VALUES (1,?,?,?)";
-		$sql = $this->db->compile_binds($sql,array($ebt,$eet,$_POST['mrid'],$_POST['mremind'],$type,$_POST['mname'],$_POST['mconfirm'],$_POST['mchecktype']));
+        $euid = 1;
+        $emanage = 1;
+        $sql = "INSERT INTO event (euid,emanage,ebt,eet,etype,eremind,econtent) VALUES (1,1,?,?,?,?,?)";
+		$sql = $this->db->compile_binds($sql,array($ebt,$eet,$_POST['etype'],$_POST['eremind'],$_POST['econtent']));
 		if($this->db->simple_query($sql)){
 			return true;
 		}
@@ -29,12 +31,17 @@ class Event_model extends CI_Model {
         $euid = 1;
         $ebt = strtotime($date);
         $eet = $ebt+3600*24;
+        $ebt = date('Y-m-d H:i:s',$ebt);
+        $eet = date('Y-m-d H:i:s',$eet);
         
-        $sql = "SELECT * FROM event WHERE euid = ? AND eet BETWEEN ".$ebt." AND ".$eet." ;";
+        $sql = "SELECT * FROM event WHERE euid = ? AND eet > '".$ebt."' AND eet < '".$eet."' ;";
         $sql = $this->db->query($sql,array($euid));
         
         if($sql)
+        {
+            echo json_encode($sql->result_array());
             return $sql->result_array();
+        }
         else
             return false;
     }
@@ -43,12 +50,17 @@ class Event_model extends CI_Model {
     {
         $ebt = strtotime($date);
         $eet = $ebt+3600*24;
+        $ebt = date('Y-m-d H:i:s',$ebt);
+        $eet = date('Y-m-d H:i:s',$eet);
 
-        $sql = "SELECT * FROM event,user WHERE emanage = 1 AND euid = uid AND eet BETWEEN ".$ebt." AND ".$eet." ;";
+        $sql = "SELECT * FROM event,user WHERE emanage = 1 AND euid = uid AND eet > '".$ebt."' AND eet < '".$eet."' ;";
         $sql = $this->db->query($sql);
         
         if($sql)
+        {
+            echo json_encode($sql->result_array());
             return $sql->result_array();
+        }
         else
             return false;
     }

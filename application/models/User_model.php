@@ -8,13 +8,22 @@ class User_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getlatestuser()
+    public function getlatestuser($partition)
     {
-    	$sql = "SELECT * FROM user ORDER BY ulatest desc limit 5";
-    	$sql = $this->db->query($sql);
-    	$result = $sql->result_array();
-    	var_dump($result);
-        return $result;
+        if($partition == 0){
+        	$sql = "SELECT * FROM user ORDER BY ulatest desc";
+        	$sql = $this->db->query($sql);
+        	$result = $sql->result_array();
+        	//var_dump($result);
+            return $result;
+        }
+        else{
+            $sql = "SELECT * FROM absent,user WHERE uid = abuid AND abmonth = ? ORDER BY abalnum desc";
+            $sql = $this->db->query($sql,$partition);
+            $result = $sql->result_array();
+            //var_dump($result);
+            return $result;
+        }
     }
 
 }

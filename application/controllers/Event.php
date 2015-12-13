@@ -16,16 +16,14 @@ class Event extends CI_Controller {
 
 	public function getmyevent()
 	{
-		$test = $_POST['date'];
 		$this->load->model('event_model');
 		$data = $this->event_model->getmyevent($_POST['date']);
-		
-		// if($data)
-		// 	echo json_encode($data);
+		if($data){
+		}
+		else{
+			return false;
+		}
 		return true;
-
-		//$ary['list']=$data;
-		//echo json_encode($data);
 	}
 
 	public function manageevent()
@@ -45,12 +43,16 @@ class Event extends CI_Controller {
 	public function addevent()
 	{
 		$this->load->model('event_model');
-
+		$this->load->view('addevent');
 	}
 
-	public function addpost($date)
+	public function add_post()
 	{
 		$this->load->model('event_model');
-		$this->event_model->add($date);
+		
+		if($this->event_model->add())
+			redirect(base_url("event/myevent"));
+		else
+			redirect(base_url("event/addevent"));
 	}
 }

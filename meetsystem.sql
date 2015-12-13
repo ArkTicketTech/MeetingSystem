@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Dec 09, 2015 at 08:16 PM
+-- Generation Time: Dec 13, 2015 at 03:28 PM
 -- Server version: 5.5.38
 -- PHP Version: 5.6.2
 
@@ -13,6 +13,35 @@ SET time_zone = "+00:00";
 --
 -- Database: `meetsystem`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `absent`
+--
+
+CREATE TABLE `absent` (
+  `abuid` int(11) NOT NULL,
+  `abalnum` int(11) NOT NULL,
+  `abmonth` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `absent`
+--
+
+INSERT INTO `absent` (`abuid`, `abalnum`, `abmonth`) VALUES
+(1, 2, 10),
+(2, 5, 9),
+(3, 5, 10),
+(1, 6, 6),
+(5, 10, 10),
+(5, 10, 10),
+(6, 6, 10),
+(7, 15, 10),
+(8, 3, 10),
+(9, 1, 10),
+(10, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -45,16 +74,20 @@ CREATE TABLE `event` (
   `ebt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `eet` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `etype` int(11) NOT NULL COMMENT '外出等类别',
-  `emanage` int(11) NOT NULL COMMENT '高管'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `emanage` int(11) NOT NULL COMMENT '高管',
+  `econtent` varchar(140) NOT NULL,
+  `eremind` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`eid`, `euid`, `ebt`, `eet`, `etype`, `emanage`) VALUES
-(1, 1, '2015-12-08 16:57:13', '2015-12-09 03:00:00', 0, 0),
-(2, 1, '2015-12-08 16:58:13', '2015-12-09 03:00:00', 0, 0);
+INSERT INTO `event` (`eid`, `euid`, `ebt`, `eet`, `etype`, `emanage`, `econtent`, `eremind`) VALUES
+(1, 1, '2015-12-08 16:57:13', '2015-12-09 03:00:00', 0, 0, '', 0),
+(2, 1, '2015-12-08 16:58:13', '2015-12-09 03:00:00', 0, 0, '', 0),
+(3, 4, '2015-12-09 16:18:01', '2015-12-09 03:00:00', 1, 1, '', 0),
+(4, 1, '2015-12-09 16:57:00', '2015-12-09 16:57:00', 0, 1, 'asfdjsa;lf', 30);
 
 -- --------------------------------------------------------
 
@@ -100,8 +133,8 @@ INSERT INTO `meeting` (`mid`, `muid`, `mplanbt`, `mplanet`, `mactbt`, `mactet`, 
 (8, 1, '2014-09-09 02:10:10', '2014-10-10 02:10:10', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 3, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (9, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 19, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (10, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 21, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '', 10, '', NULL, 0),
-(11, 1, '2015-12-24 01:03:00', '2015-12-07 15:00:00', '0000-00-00 00:00:00', '2015-12-07 10:50:01', 1, 33, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '123123', 60, '', '2015-12-06 07:00:00', 1),
-(12, 3, '2015-12-23 23:00:00', '2015-12-31 01:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 19, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, 'douwo', NULL, '', NULL, 0),
+(11, 1, '2015-12-24 01:03:00', '2015-12-07 15:00:00', '0000-00-00 00:00:00', '2015-12-13 07:05:12', 1, 33, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '123123', 60, '', '2015-12-06 07:00:00', 1),
+(12, 3, '2015-12-23 23:00:00', '2015-12-31 01:00:00', '0000-00-00 00:00:00', '2015-12-13 07:23:27', 2, 19, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, 'douwo', 70, '', NULL, 0),
 (13, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 30, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (14, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 20, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (15, 1, '2015-10-10 02:10:10', '0000-00-00 00:00:00', NULL, NULL, 2, 30, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 'testfordraft', NULL, '', NULL, 0),
@@ -208,7 +241,7 @@ CREATE TABLE `user` (
   `type` int(11) NOT NULL,
   `uabsentnum` int(11) NOT NULL,
   `ulatenum` int(11) NOT NULL,
-  `ulatest` int(11) NOT NULL
+  `ulatest` int(11) NOT NULL COMMENT 'lateorabsent'
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
@@ -217,13 +250,13 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`uid`, `uname`, `type`, `uabsentnum`, `ulatenum`, `ulatest`) VALUES
 (1, 'wfnuser', 0, 0, 0, 0),
-(2, 'test', 0, 2, 0, 2),
-(3, 'wfnuser4', 0, 1, 0, 1),
+(2, 'test', 0, 4, 0, 4),
+(3, 'wfnuser4', 0, 2, 0, 2),
 (4, 'test4', 0, 0, 0, 2),
 (5, 'wfnuser1', 0, 0, 0, 0),
 (6, 'test2', 0, 0, 0, 3),
 (7, 'wfnuser3', 0, 0, 0, 0),
-(8, 'test3', 0, 1, 0, 1),
+(8, 'test3', 0, 2, 0, 2),
 (9, 'mark', 0, 0, 0, 0),
 (10, 'mark2', 0, 0, 0, 0),
 (11, 'mark22', 0, 0, 0, 0),
@@ -288,7 +321,7 @@ MODIFY `aid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-MODIFY `eid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `eid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `meeting`
 --

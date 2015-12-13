@@ -277,6 +277,7 @@ class Meet_model extends CI_Model {
         $absentnum=0;
         $latenum=0;
         $score=100;
+        $month = date("m");
         var_dump($meet);
         if(count($members)){
                 foreach ($members as $mem) {
@@ -285,6 +286,10 @@ class Meet_model extends CI_Model {
                         $add = $this->db->query($add,$mem['mmuid']);
                         $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
                         $add = $this->db->query($add,$mem['mmuid']);
+                        
+                        $add = "UPDATE absent SET abalnum = abalnum + 1 WHERE abmonth = ? AND abuid = ?";
+                        $add = $this->db->query($add,array($month,$mem['mmuid']));
+                        
                         $absentnum++;
                     }
                     if($mem['mmchecked'] && ($mem['mmchecktime'] > $meet[0]['mplanbt']) ){
@@ -292,6 +297,10 @@ class Meet_model extends CI_Model {
                         $add = $this->db->query($add,$mem['mmuid']);
                         $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
                         $add = $this->db->query($add,$mem['mmuid']);
+
+                        $add = "UPDATE absent SET abalnum = abalnum + 1 WHERE abmonth = ? AND abuid = ?";
+                        $add = $this->db->query($add,array($month,$mem['mmuid']));
+                        
                         $latenum++;
                     }
                 }

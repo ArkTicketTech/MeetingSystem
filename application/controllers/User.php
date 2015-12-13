@@ -8,10 +8,11 @@ class User extends CI_Controller {
 		//$this->load->view('xjhy');
 	}
 
-	public function latest()
+	public function latest($partition = 0)
 	{
 		$this->load->model('user_model');
-		$data['list'] = $this->user_model->getlatestuser();
+		$data['list'] = $this->user_model->getlatestuser($partition);
+		$data['month'] = $partition;
 		$this->load->view('zdchpm',$data);
 	}
 

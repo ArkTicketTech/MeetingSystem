@@ -6,6 +6,11 @@
     <!-- 包含头部信息用于适应不同设备 -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0,user-scalable=no">
     <!-- 包含 bootstrap 样式表 -->
+    <link href="<?php echo base_url('css/common.css');?>" rel="stylesheet" type="text/css" />
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+ 	<script type="text/javascript" src="<?php echo base_url('js/date.js');?>" ></script>
+    <script type="text/javascript" src="<?php echo base_url('js/iscroll.js');?>" ></script>
+</script>
     <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('css/index.css');?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/datetime/DateTimePicker.css')?>" />
@@ -26,7 +31,7 @@
 			开始时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanbt" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
+			<input id="dpstart" name="mplanbt" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanbt'])?>">
 		</div>
     </div>
    <div class="row xjhy" >
@@ -34,7 +39,7 @@
 			结束时间
 		</div>
 		<div class="col-xs-8" >
-			<input name="mplanet" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanet'])?>">
+			<input id="dpend" name="mplanet" data-field="datetime" placeholder="请选择日期" value="<?php echo (empty($list[0])?'':$list[0]['mplanet'])?>">
 		</div>
     </div>
 	<div class="row xjhy" >
@@ -84,7 +89,7 @@
 		</div>
 		<div class="col-xs-4 add" >
 			<span style="font-size:20px;line-height: 27px;" onclick = "upload1()">+</span>上传
-			<input id="File" type="file" name="userfile" style="display:none" onchange="alert(123)"/>
+			<input id="File" type="file" name="userfile" style="display:none" onchange=""/>
 			<input id="Filename" name="mfilename" style="display:none;"/>
 		</div>
     </div>
@@ -117,7 +122,12 @@
     </div>
 	</form>
 </div>
-<div id="dtBox"></div>
+
+
+
+<div id="datePlugin"></div>
+
+</body>
 <div class="newS" >
 	<div class="bottomSpan" >
 		<span>保存为草稿</span>
@@ -128,8 +138,6 @@
 	</div>
 </div>
 </body>
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url('css/datetime/DateTimePicker.js')?>"></script>
 <script>
 function upload1(){
 	$("#File").click();
@@ -174,12 +182,11 @@ $(document).ready(function(){
 			$(this).children().eq(1).val(0);
 		}
 	});
-	$("#dtBox").DateTimePicker({
-		formatHumanDate: function(date)
-		{
-		    return date.day + ", " + date.month + " " + date.dd + ", " + date.yyyy;
-		}
-    });
+
+	$('#dpstart').date({theme:"datetime"});
+	$('#dpend').date({theme:"datetime"});
+
+
 });
 
 </script>
