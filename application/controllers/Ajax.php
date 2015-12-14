@@ -28,6 +28,8 @@ class Ajax extends CI_Controller {
 		return $result;
 	}
 
+
+
 	public function checkin($id=0)
 	{
 		if(!$id)

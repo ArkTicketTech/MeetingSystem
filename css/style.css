@@ -1,0 +1,163 @@
+*{
+    margin: 0 auto;
+    padding:0;
+}
+a{
+    text-decoration: none;
+    color:inherit;
+    cursor: pointer;
+}
+.mian>*{
+    margin: 5px 0;
+}
+.mian{
+    width:100%;
+    background-color: #1F3563;
+}
+.top{
+    height:30px;
+    line-height: 30px;
+    font-size:20px;
+    color:#D7CA84;
+    font-weight: 100;
+    position: relative;
+}
+.top .title{
+    position: absolute;
+    left:5px;
+    top:0px;
+}
+.top .top-nav{
+    position: absolute;
+    right:5px;
+    font-size:12px;
+    color: #a4b0ff;
+    top:0px;
+    margin: 5px 0;
+}
+.top .top-nav a{
+    padding:0 5px;
+    margin: 5px 0;
+}
+.nav{
+    height:30px;
+    line-height: 10px;
+    margin: 5px 0;
+    z-index: -1;
+}
+div.nav ul{
+    float: left;
+    margin: 5px 0;
+    list-style: none;
+}
+.nav ul li{
+    padding:5px 15px;
+    float:left;
+    margin: 5px 0;
+    font-size:20px;
+    line-height: inherit;
+    font-weight: 700;
+    list-style: none;
+    margin:0;
+    color: #cad8ff;
+}
+.nav ul li a{
+    display: block;
+    width:100%;
+    margin: 5px 0;
+    height:100%;
+    line-height: inherit;
+}
+.mian-content{
+    width:100%;
+    background-color:#E5E5E5;
+    position: relative;
+    padding:20px 35px;
+    box-sizing: border-box;
+}
+.content{
+    width:100%;
+}
+.content-header{
+    display: block;
+    height:30px;
+    line-height: 30px;
+    font-size:16px;
+    font-weight: 100;
+    border-bottom: 2px solid #DDDEE2;
+    background-color: #FBFCFF;
+}
+.content-header select{
+    width:100px;
+    height:inherit;
+    border: none;
+}
+.content-header > div{
+    float: left;
+    padding:0 10px;
+}
+.orderby{
+    width:80px;
+    height:inherit;
+}
+.c-table{
+    width:100%;
+    text-align: center;
+    border: none;
+}
+.header{
+    font-weight: 900;
+    height:30px;
+    font-size:14px;
+    line-height: 30px;
+    background-color: #F1F1F1;
+}
+tr.content{
+    height: 25px;
+    line-height: 25px;
+}
+tr.content:nth-child(2n){
+    background-color:#FAFAFA;
+}
+tr.content:nth-child(2n+1){
+    background-color: #FFFFFF;
+}
+.fenye{
+    position: absolute;
+    right:20px;
+    bottom:0px;
+}
+td a{
+    padding:0 5px;
+    margin-left: 5px;
+    font-size:12px;
+    border:1px solid #ccc;
+}
+.admin-style{
+    float: left;
+    height:60px;
+    padding:5px;
+    border:2px solid #cccccc;
+    width:100px;
+}
+#backIndex{
+    cursor: pointer;
+}
+fieldset label{
+    width:100px;
+    display: inline-block;
+    text-align: right;
+    height:20px;
+    line-height: 20px;
+    padding-right: 10px;
+}
+tr:nth-child(3n){
+    color:red;
+}
+fieldset p{
+    height:30px;
+}
+fieldset p>input{
+    height:20px;
+    line-height: 20px;
+}

@@ -131,6 +131,35 @@ class Meet_model extends CI_Model {
 		return $list;
     }
 
+    public function getadminmeet($search=0,$type,$month=1)
+    {
+        $now=date('Y-m-d H:i:s');
+        if(!$search){
+            $sql = "SELECT * FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND meeting.mplanbt < ? AND meeting.mstate=1";
+            $sql = $this->db->query($sql,$now); 
+        }
+        else{
+
+            if($search===0) $search = '0';
+            
+            if($type==1){
+                $sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname like '%".$search."%' AND meeting.mstate=0";
+                $sql = $this->db->query($sql);
+            }
+            else{
+                    if($type==2)
+                        $sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname,uname FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND mname like '%".$search."%' AND meeting.mplanbt < ? AND meeting.mstate=1";
+                    else
+                        $sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname like '%".$search."%'  AND meeting.mplanbt > ? AND meeting.mstate=1";
+                    $sql = $this->db->query($sql,array($now));
+            }
+
+        }
+        $list = $sql->result_array();
+        //var_dump($list);
+        return $list;
+    }
+
     public function getroomlist()
     {
     	$now=date('Y-m-d H:i:s');
@@ -278,30 +307,45 @@ class Meet_model extends CI_Model {
         $latenum=0;
         $score=100;
         $month = date("m");
-        var_dump($meet);
+        // var_dump($meet);
+        // var_dump($members);
         if(count($members)){
                 foreach ($members as $mem) {
-                    if($mem['mmchecked'] == 0){
-                        $add = "UPDATE user SET uabsentnum = uabsentnum + 1 WHERE uid = ?";
-                        $add = $this->db->query($add,$mem['mmuid']);
-                        $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
-                        $add = $this->db->query($add,$mem['mmuid']);
-                        
-                        $add = "UPDATE absent SET abalnum = abalnum + 1 WHERE abmonth = ? AND abuid = ?";
-                        $add = $this->db->query($add,array($month,$mem['mmuid']));
-                        
-                        $absentnum++;
-                    }
-                    if($mem['mmchecked'] && ($mem['mmchecktime'] > $meet[0]['mplanbt']) ){
-                        $add = "UPDATE user SET ulatenum = ulatenum + 1 WHERE uid = ?";
-                        $add = $this->db->query($add,$mem['mmuid']);
-                        $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
-                        $add = $this->db->query($add,$mem['mmuid']);
+                    $add = "UPDATE absent SET abatnum = abatnum + 1 WHERE abmonth = ? AND abuid = ?";
+                    $add = $this->db->query($add,array($month,$mem['mmuid']));
+                    // var_dump($mem['uid']);
+                    // var_dump($add);
+                    if($mem['mmleave']==0){        
+                        if($mem['mmchecked'] == 0){
+                            $add = "UPDATE user SET uabsentnum = uabsentnum + 1 WHERE uid = ?";
+                            $add = $this->db->query($add,$mem['mmuid']);
+                            $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
+                            $add = $this->db->query($add,$mem['mmuid']);
+                            
+                            $add = "UPDATE absent SET abalnum = abalnum + 1 WHERE abmonth = ? AND abuid = ?";
+                            $add = $this->db->query($add,array($month,$mem['mmuid']));
+                            $add = "UPDATE absent SET ababnum = ababnum + 1 WHERE abmonth = ? AND abuid = ?";
+                            $add = $this->db->query($add,array($month,$mem['mmuid']));
+                            
+                            $absentnum++;
+                        }
+                        if($mem['mmchecked'] && ($mem['mmchecktime'] > $meet[0]['mplanbt']) ){
+                            $add = "UPDATE user SET ulatenum = ulatenum + 1 WHERE uid = ?";
+                            $add = $this->db->query($add,$mem['mmuid']);
+                            $add = "UPDATE user SET ulatest = ulatest + 1 WHERE uid = ?";
+                            $add = $this->db->query($add,$mem['mmuid']);
 
-                        $add = "UPDATE absent SET abalnum = abalnum + 1 WHERE abmonth = ? AND abuid = ?";
+                            $add = "UPDATE absent SET abalnum = abalnum + 1 WHERE abmonth = ? AND abuid = ?";
+                            $add = $this->db->query($add,array($month,$mem['mmuid']));
+                            $add = "UPDATE absent SET abltnum = abltnum + 1 WHERE abmonth = ? AND abuid = ?";
+                            $add = $this->db->query($add,array($month,$mem['mmuid']));
+                            
+                            $latenum++;
+                        }
+                    }
+                    else{
+                        $add = "UPDATE absent SET ablvnum = ablvnum + 1 WHERE abmonth = ? AND abuid = ?";
                         $add = $this->db->query($add,array($month,$mem['mmuid']));
-                        
-                        $latenum++;
                     }
                 }
         }
@@ -352,10 +396,12 @@ class Meet_model extends CI_Model {
         $sum = (20/60)*$mine;
         if($sum>20) $sum=20;
         $score = $score - $sum;
+        $score = intval($score);
 
         $sql = "UPDATE meeting SET mscore = ? WHERE mid = ?";
         $sql = $this->db->query($sql,array($score,$mid)); 
-        if($this->db->simple_query($sql)){
+
+        if($sql){
             return true;
         }
         else{
