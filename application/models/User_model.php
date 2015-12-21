@@ -26,4 +26,31 @@ class User_model extends CI_Model {
         }
     }
 
+    public function adminlogin()
+    {
+        $sql = "SELECT id FROM admin WHERE pwd = ? limit 1";
+        $query = $this->db->query($sql, array( md5($_POST['pwd']) ));
+        if ($query->num_rows() > 0){
+            return $query->result_array()[0];
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function adminchangepass()
+    {
+        $sql = "SELECT * FROM admin WHERE pwd = ? limit 1";
+        $query = $this->db->query($sql, array(md5($_POST['porigin'])));
+        if ($query->result_array()){
+            $sql = "UPDATE admin SET pwd = ? WHERE id=1";
+            $query = $this->db->query($sql, array(md5($_POST['pnew'])));
+            return true;
+        }
+        else{
+            var_dump("Wrong Password!");
+            return false;
+        }
+    }
+
 }

@@ -17,6 +17,55 @@ class Meet extends CI_Controller {
 		$this->load->view('xjhy',$data);
 	}
 
+	public function xjhy_1(){
+		$this->load->view('xjhy_1');
+	}
+	
+	public function xjhy_2(){
+		// 获取部门
+		include 'User.php';
+		$user = new User;
+		session_start();
+		if(!isset($_SESSION['access_token'])){
+			$access_token = $user->GetAccessToken();
+		}else if($_SESSION['access_token']['time'] + 3600 < time()){
+			$access_token = $user->GetAccessToken();
+		}else {
+			$access_token = $_SESSION['access_token']['access_token'];
+		}
+		$departments = $user->GetUserDepartment($access_token);
+		$data['departments'] = $departments;
+		$this->load->view('xjhy_2',$data);
+	}
+
+	public function xjhy_3(){
+		// 获取部门 人员
+		include 'User.php';
+		$user = new User;
+		session_start();
+		if(!isset($_SESSION['access_token'])){
+			$access_token = $user->GetAccessToken();
+		}else if($_SESSION['access_token']['time'] + 3600 < time()){
+			$access_token = $user->GetAccessToken();
+		}else {
+			$access_token = $_SESSION['access_token']['access_token'];
+		}
+		$departments = $user->GetUserDepartment($access_token);
+		$data['departments'] = $departments;
+		$data['users'] = $user->GetUserListByGroupId(2,$access_token);
+		//按字母排序
+		include "/pinyin/src/Pinyin/Pinyin.php";
+		foreach ($data['users']['userlist'] as $key => $value) {
+			$data['users']['userlist'][$key]['letter'] = substr( Pinyin::letter($value['name'], array('uppercase' => true)), 0, 1 );
+		}
+		$ages = array();
+		foreach ($data['users']['userlist'] as $user) {
+		    $ages[] = $user['letter'];
+		}
+		array_multisort($ages, SORT_ASC, $data['users']['userlist']);
+		$this->load->view('xjhy_3',$data);
+	}
+
 	//my stay meetings' detail  
 	public function mydetail($id=0)
 	{

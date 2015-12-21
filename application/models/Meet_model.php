@@ -133,31 +133,34 @@ class Meet_model extends CI_Model {
 
     public function getadminmeet($search=0,$type,$month=1)
     {
-        $now=date('Y-m-d H:i:s');
+        //$now=date('Y-m-d H:i:s');
+        $year = date('Y');
+        $begin=mktime(0, 0, 0, $month, 1, date('Y'));
+        if($month==12)
+            $year++;
+        $end=mktime(0, 0, 0, $month+1, 1, date('Y'));
+        $begin = date('Y-m-d H:i:s',$begin);
+        $end = date('Y-m-d H:i:s',$end);
         if(!$search){
-            $sql = "SELECT * FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND meeting.mplanbt < ? AND meeting.mstate=1";
-            $sql = $this->db->query($sql,$now); 
+            $sql = "SELECT * FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND meeting.mplanbt < ? AND meeting.mplanbt > ? AND meeting.mstate=1 ORDER BY meeting.mplanbt";
+            $sql = $this->db->query($sql,array($end,$begin)); 
         }
         else{
-
-            if($search===0) $search = '0';
-            
-            if($type==1){
-                $sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname like '%".$search."%' AND meeting.mstate=0";
-                $sql = $this->db->query($sql);
-            }
-            else{
-                    if($type==2)
-                        $sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname,uname FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND mname like '%".$search."%' AND meeting.mplanbt < ? AND meeting.mstate=1";
-                    else
-                        $sql = "SELECT mid,muid,mplanbt,mplanet,mrid,mname,rname FROM meeting,room WHERE room.rid=meeting.mrid AND mname like '%".$search."%'  AND meeting.mplanbt > ? AND meeting.mstate=1";
-                    $sql = $this->db->query($sql,array($now));
-            }
-
+            $sql = "SELECT * FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND meeting.mplanbt < ? AND meeting.mplanbt > ? AND mname like '%".$search."%' AND meeting.mstate=1 ORDER BY meeting.mplanbt";
+            $sql = $this->db->query($sql,array($end,$begin));
         }
         $list = $sql->result_array();
         //var_dump($list);
         return $list;
+    }
+
+    public function getconfirmmeet()
+    {
+        $sql = "SELECT * FROM meeting,room,user WHERE user.uid=muid AND room.rid=meeting.mrid AND meeting.mpass=0 AND meeting.mstate=1 ORDER BY meeting.mplanbt";
+        $sql = $this->db->query($sql);  
+        $list = $sql->result_array();
+        //var_dump($list);
+        return $list;  
     }
 
     public function getroomlist()
@@ -191,6 +194,13 @@ class Meet_model extends CI_Model {
     	}
     	return $list;
 
+    }
+
+    public function allroom()
+    {
+        $all = "SELECT * FROM room";
+        $all = $this->db->query($all);
+        return $all->result_array();
     }
 
     public function meetstart($id)
@@ -416,5 +426,33 @@ class Meet_model extends CI_Model {
         $result = $sql->result_array();
         return $result;
         
+    }
+
+    public function meetconfirm($mid,$confirm)
+    {
+        
+        $sql = "UPDATE meeting SET mpass=? WHERE mid=?";
+        $sql = $this->db->query($sql,array($confirm,$mid));
+        var_dump("reason is:");
+        var_dump($_POST['reason']);
+        if($confirm == 0){
+            $sql = "UPDATE meeting SET mconfirmtext=? WHERE mid=?";
+            $sql = $this->db->query($sql,array($_POST['reason'],$mid));
+        }
+        return $sql; 
+    }
+
+    public function removeroom($rid)
+    {   
+        $sql = "DELETE FROM room WHERE rid = ?";
+        $sql = $this->db->query($sql,array($rid));
+        return $sql; 
+    }
+
+    public function createroom()
+    {   
+        $sql = "INSERT INTO room (rname,rpeople,rmedia,rprojection,raddr) VALUES (?,?,?,?,?)";
+        $sql = $this->db->query($sql,array($_POST['rname'],$_POST['rpeople'],$_POST['rmedia'],$_POST['rprojection'],$_POST['raddr']));
+        return $sql; 
     }
 }

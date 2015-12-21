@@ -157,6 +157,7 @@ $(document).ready(function(){
 				pos = pos2[pos2.length-1];
 			}
 			$("#Filename").val(pos);
+
 	}
 	$(".bottomSpan").children().eq(1).click(function(){
 		if($(".form_remind").val()=="") $(".form_remind").val(30);

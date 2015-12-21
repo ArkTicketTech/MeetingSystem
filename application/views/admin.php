@@ -5,12 +5,13 @@
     <title>微信平台后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style.css');?>">
     <script src="<?php echo base_url('js/dome.js');?>"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </head>
 <body>
 <div class="mian">
     <div class="top">
         <p class="title">微信平台后台管理系统</p>
-        <nav class="top-nav" id="top-nav"><p><a id="admin">管理员</a><a id="backIndex">退出</a></p></nav>
+        <nav class="top-nav" id="top-nav"><p><a id="admin">管理员</a><a id="backIndex" href="<?php echo base_url('admin/logout');?>">退出</a></p></nav>
     </div>
     <div class="nav" id="nav">
         <ul>
@@ -26,15 +27,29 @@
             <header class="content-header">
                 <h1>管理员密码设置</h1>
             </header>
-            <fieldset>
-                <legend>管理员密码设置</legend>
-                <p><label>旧密码:</label><input type="text" id="jiupsd" name="jiupsd" class="psd" /></p>
-                <p><label>新密码:</label><input type="text" id="xpsd" name="xpsd" class="psd" /></p>
-                <p><label>确认密码:</label><input type="text" id="qpsd" name="qpsd" class="psd" /></p>
-                <p><input style="margin-left: 200px;" type="button" id="xiugai" name="xiugai" value="确认修改" /></p>
-            </fieldset>
+            <?php echo form_open('admin/changepass'); ?>  
+                <fieldset>
+                    <legend>管理员密码设置</legend>
+                    <p><label>旧密码:</label><input type="text" id="jiupsd" name="porigin" class="psd" /></p>
+                    <p><label>新密码:</label><input type="text" id="xpsd" name="pnew" class="psd" /></p>
+                    <p><label>确认密码:</label><input type="text" id="qpsd" name="pnew2" class="psd" /></p>
+                    <p><input style="margin-left: 200px;" id="xiugai" name="xiugai" value="确认修改" /></p>
+                </fieldset>
+            </form>
         </div>
     </div>
 </div>
 </body>
+<script>
+$(document).ready(function(){
+    $("#xiugai").bind("click",function(){
+        if($("#xpsd").val() != $("#qpsd").val()){
+            alert("两次密码不一致");
+        }
+        else{
+            $("form").submit();
+        }
+    });
+}); 
+</script>
 </html>

@@ -1,0 +1,8 @@
+controller admin
+views 和admin相关的几个文件 添加了审核，下载相关内容 对应model里面相应的函数也要添加到新版本
+数据库meet下增加字段 mconfirmtext varchar类型 
+修改了style css 直接替换吧，如果没改过  改过的话 就在最后的位置增加了几行
+增加了一个插件 直接合并css 和 js文件夹好了
+增加了导出excel功能 相关的几个页面 jqeury要用1.8才行 修改过的位置都标记了
+
+有问题再问我吧～ 辛苦啦

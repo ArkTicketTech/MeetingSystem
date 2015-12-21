@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Dec 15, 2015 at 02:12 AM
+-- Generation Time: Dec 16, 2015 at 02:33 AM
 -- Server version: 5.5.38
 -- PHP Version: 5.6.2
 
@@ -46,7 +46,25 @@ INSERT INTO `absent` (`abuid`, `abalnum`, `abmonth`, `abltnum`, `abatnum`, `abab
 (8, 3, 10, 0, 0, 0, 0),
 (9, 1, 10, 0, 0, 0, 0),
 (10, 5, 10, 0, 0, 0, 0),
-(2, 9, 12, 1, 11, 9, 3);
+(2, 10, 12, 1, 12, 10, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+`id` int(11) NOT NULL,
+  `pwd` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `pwd`) VALUES
+(1, 'e10adc3949ba59abbe56e057f20f883e');
 
 -- --------------------------------------------------------
 
@@ -138,7 +156,7 @@ INSERT INTO `meeting` (`mid`, `muid`, `mplanbt`, `mplanet`, `mactbt`, `mactet`, 
 (8, 1, '2014-09-09 02:10:10', '2014-10-10 02:10:10', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 3, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (9, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 19, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (10, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 21, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '', 10, '', NULL, 0),
-(11, 1, '2015-12-24 01:03:00', '2015-12-07 15:00:00', '0000-00-00 00:00:00', '2015-12-14 16:01:44', 1, 33, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '123123', 70, '', '2015-12-06 07:00:00', 1),
+(11, 1, '2015-12-24 01:03:00', '2015-12-07 15:00:00', '0000-00-00 00:00:00', '2015-12-15 15:53:14', 1, 33, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '123123', 70, '', '2015-12-06 07:00:00', 1),
 (12, 3, '2015-12-23 23:00:00', '2015-12-31 01:00:00', '0000-00-00 00:00:00', '2015-12-13 07:23:27', 2, 19, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, 'douwo', 70, '', NULL, 0),
 (13, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 30, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
 (14, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 20, 0, 0, 0, '', 1, '0000-00-00 00:00:00', 0, '', NULL, '', NULL, 0),
@@ -220,7 +238,7 @@ INSERT INTO `meetmember` (`mmid`, `mmmid`, `mmuid`, `mmissponser`, `mmchecked`, 
 (1, 11, 2, 0, 0, NULL, 0, 1),
 (2, 11, 8, 0, 0, NULL, 0, 1),
 (3, 11, 3, 0, 0, NULL, 1, 0),
-(5, 11, 1, 0, 1, '2015-12-07 10:50:05', 1, 0),
+(5, 11, 1, 0, 1, '2015-12-15 15:53:15', 1, 0),
 (6, 2, 1, 0, 0, NULL, 1, 0),
 (7, 4, 1, 0, 0, NULL, 1, 0);
 
@@ -266,16 +284,21 @@ INSERT INTO `msg` (`msgid`, `msgtype`, `msgmid`, `msgtime`, `msguid`) VALUES
 
 CREATE TABLE `room` (
 `rid` int(11) NOT NULL,
-  `rname` varchar(15) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `rname` varchar(15) NOT NULL,
+  `rpeople` int(11) NOT NULL,
+  `rmedia` int(11) NOT NULL,
+  `rprojection` int(11) NOT NULL,
+  `raddr` varchar(30) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `room`
 --
 
-INSERT INTO `room` (`rid`, `rname`) VALUES
-(1, '6楼1号会议室'),
-(2, '5楼1号会议室');
+INSERT INTO `room` (`rid`, `rname`, `rpeople`, `rmedia`, `rprojection`, `raddr`) VALUES
+(1, '6楼1号会议室', 0, 0, 0, '交通大学'),
+(2, '5楼1号会议室', 0, 0, 0, '困死了'),
+(3, '5楼9号会议室', 50, 1, 1, '累累累...');
 
 -- --------------------------------------------------------
 
@@ -298,13 +321,13 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`uid`, `uname`, `type`, `uabsentnum`, `ulatenum`, `ulatest`) VALUES
 (1, 'wfnuser', 1, 0, 0, 0),
-(2, 'test', 0, 14, 0, 14),
+(2, 'test', 0, 15, 0, 15),
 (3, 'wfnuser4', 1, 8, 0, 8),
 (4, 'test4', 1, 0, 0, 2),
 (5, 'wfnuser1', 1, 0, 0, 0),
 (6, 'test2', 0, 0, 0, 3),
 (7, 'wfnuser3', 0, 0, 0, 0),
-(8, 'test3', 0, 10, 0, 10),
+(8, 'test3', 0, 11, 0, 11),
 (9, 'mark', 0, 0, 0, 0),
 (10, 'mark2', 0, 0, 0, 0),
 (11, 'mark22', 0, 0, 0, 0),
@@ -313,6 +336,12 @@ INSERT INTO `user` (`uid`, `uname`, `type`, `uabsentnum`, `ulatenum`, `ulatest`)
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `apartment`
@@ -361,6 +390,11 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `apartment`
 --
 ALTER TABLE `apartment`
@@ -389,7 +423,7 @@ MODIFY `msgid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user`
 --
